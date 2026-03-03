@@ -61,18 +61,3 @@ curl -X POST https://cawme.com/api/v1/calls \
     "tts": { "text": "Hello from Cawme demo!", "voiceId": "en-US-001" }
   }'
 ```
-
-## Public endpoints
-
-The following endpoint does **not** require authentication:
-
-| Endpoint         | Description                         |
-| ---------------- | ----------------------------------- |
-| `POST /v1/leads` | Register a lead or sign-up interest |
-
-## Error responses
-
-| Code  | Meaning                                                           |
-| ----- | ----------------------------------------------------------------- |
-| `401` | Missing or invalid token                                          |
-| `403` | Token valid but access denied (e.g., wrong instance in demo mode) |

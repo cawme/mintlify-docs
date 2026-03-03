@@ -53,10 +53,6 @@
               "api-reference/calls/terminate",
               "api-reference/calls/stream"
             ]
-          },
-          {
-            "group": "Leads",
-            "pages": ["api-reference/leads/create"]
           }
         ]
       }

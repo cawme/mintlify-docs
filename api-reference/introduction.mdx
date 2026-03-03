@@ -17,7 +17,7 @@ https://sandbox.cawme.com/api/v1
 
 ## Authentication
 
-All endpoints (except `POST /v1/leads`) require a Bearer token:
+All endpoints require a Bearer token:
 
 ```http
 Authorization: Bearer <your-clerk-token>
@@ -29,20 +29,20 @@ See the [Authentication guide](/guides/authentication) for details.
 
 - All request bodies use `Content-Type: application/json`
 - All timestamps are ISO 8601 in UTC (e.g., `2026-03-01T10:00:00Z`)
-- IDs are prefixed strings: `inst_<hex>` for instances, `call_<hex>` for calls, `lead_<hex>` for leads
+- IDs are prefixed strings: `inst_<hex>` for instances, `call_<hex>` for calls
 
 ## Response codes
 
-| Code | Meaning |
-|---|---|
-| `200` | OK |
-| `201` | Resource created |
-| `204` | No content (successful delete/terminate) |
-| `400` | Bad request — missing or invalid fields |
-| `401` | Unauthorized — missing or invalid token |
+| Code  | Meaning                                   |
+| ----- | ----------------------------------------- |
+| `200` | OK                                        |
+| `201` | Resource created                          |
+| `204` | No content (successful delete/terminate)  |
+| `400` | Bad request — missing or invalid fields   |
+| `401` | Unauthorized — missing or invalid token   |
 | `403` | Forbidden — valid token but access denied |
-| `404` | Resource not found |
-| `501` | Not yet implemented |
+| `404` | Resource not found                        |
+| `501` | Not yet implemented                       |
 
 ## Idempotency
 
@@ -60,8 +60,5 @@ Demo token requests are rate-limited per IP. Authenticated requests follow stand
   </Card>
   <Card title="Calls" icon="phone" href="/api-reference/calls/create">
     Initiate and manage outbound calls.
-  </Card>
-  <Card title="Leads" icon="user-plus" href="/api-reference/leads/create">
-    Register sign-up interest.
   </Card>
 </CardGroup>
