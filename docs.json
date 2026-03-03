@@ -15,10 +15,7 @@
         "groups": [
           {
             "group": "Getting Started",
-            "pages": [
-              "index",
-              "quickstart"
-            ]
+            "pages": ["index", "quickstart"]
           },
           {
             "group": "Core Concepts",
@@ -35,9 +32,7 @@
         "groups": [
           {
             "group": "Overview",
-            "pages": [
-              "api-reference/introduction"
-            ]
+            "pages": ["api-reference/introduction"]
           },
           {
             "group": "Instances",
@@ -60,9 +55,7 @@
           },
           {
             "group": "Leads",
-            "pages": [
-              "api-reference/leads/create"
-            ]
+            "pages": ["api-reference/leads/create"]
           }
         ]
       }
@@ -71,7 +64,7 @@
       "anchors": [
         {
           "anchor": "Support",
-          "href": "mailto:support@cawme.com",
+          "href": "mailto:support@cawme.com.br",
           "icon": "envelope"
         }
       ]
@@ -85,23 +78,17 @@
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@cawme.com"
+        "href": "mailto:support@cawme.com.br"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://cawme.com/dashboard"
+      "href": "https://cawme.com.br/dashboard"
     }
   },
   "contextual": {
-    "options": [
-      "copy",
-      "view",
-      "chatgpt",
-      "claude",
-      "cursor"
-    ]
+    "options": ["copy", "view", "chatgpt", "claude", "cursor"]
   },
   "footer": {
     "socials": {

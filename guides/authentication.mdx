@@ -30,6 +30,7 @@ Obtain your token from the Cawme dashboard or via the Clerk SDK in your applicat
       },
     });
     ```
+
   </Tab>
   <Tab title="cURL">
     ```bash
@@ -47,7 +48,7 @@ For quick testing without a full Clerk setup, Cawme supports a **demo token**. D
 - Are rate-limited per IP
 - Require no account creation
 
-Contact [support@cawme.com](mailto:support@cawme.com) to get a demo token, then use it like any other Bearer token:
+Contact [support@cawme.com](mailto:support@cawme.com.br) to get a demo token, then use it like any other Bearer token:
 
 ```bash
 curl -X POST https://cawme.com/api/v1/calls \
@@ -65,13 +66,13 @@ curl -X POST https://cawme.com/api/v1/calls \
 
 The following endpoint does **not** require authentication:
 
-| Endpoint | Description |
-|---|---|
+| Endpoint         | Description                         |
+| ---------------- | ----------------------------------- |
 | `POST /v1/leads` | Register a lead or sign-up interest |
 
 ## Error responses
 
-| Code | Meaning |
-|---|---|
-| `401` | Missing or invalid token |
+| Code  | Meaning                                                           |
+| ----- | ----------------------------------------------------------------- |
+| `401` | Missing or invalid token                                          |
 | `403` | Token valid but access denied (e.g., wrong instance in demo mode) |
