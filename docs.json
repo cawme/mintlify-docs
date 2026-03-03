@@ -4,9 +4,9 @@
   "appearance": "light",
   "name": "Cawme",
   "colors": {
-    "primary": "#25D366",
-    "light": "#128C7E",
-    "dark": "#075E54"
+    "primary": "#2EA02E",
+    "light": "#2EA02E",
+    "dark": "#5adf5a"
   },
   "favicon": "/favicon.svg",
   "navigation": {
