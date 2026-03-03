@@ -1,97 +1,45 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: "Welcome to Cawme"
+description: "The easiest way to make WhatsApp calls via API"
 ---
 
-## Setting up
+## What is Cawme?
 
-Get your documentation site up and running in minutes.
+Cawme lets businesses programmatically make WhatsApp voice calls to their customers. Whether you want to send a fixed TTS message, play a pre-recorded audio file, stream real-time audio, or deploy an AI agent for dynamic conversations — Cawme handles it all through a simple REST API.
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
-
-## Make it yours
-
-Design a docs site that looks great and empowers your users.
-
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Make your first WhatsApp call in minutes.
   </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
+  <Card title="Authentication" icon="lock" href="/guides/authentication">
+    Learn how to authenticate API requests.
   </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
+  <Card title="Instances" icon="mobile" href="/guides/instances">
+    Understand how WhatsApp instances work.
   </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
+  <Card title="Call Types" icon="phone" href="/guides/call-types">
+    Explore the four types of calls you can make.
   </Card>
-</Columns>
+</CardGroup>
 
-## Create beautiful pages
+## Key concepts
 
-Everything you need to create world-class documentation.
+- **Instance** — A WhatsApp number paired to Cawme. Each instance has its own call queue and progresses through statuses: `CREATED`, `CONFIGURED`, `ACTIVE`, or `DELETED`.
+- **Call** — A single outbound call initiated from an instance. Calls move through: `QUEUED → RINGING → IN_PROGRESS → COMPLETED / FAILED`.
+- **Call types** — Four modes: [`FIXED_TTS`](/guides/call-types#fixed-tts), [`FIXED_AUDIO`](/guides/call-types#fixed-audio), [`DYNAMIC_STREAM`](/guides/call-types#dynamic-stream), and [`DYNAMIC_AGENT`](/guides/call-types#dynamic-agent).
 
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
+## Base URL
 
-## Need inspiration?
+```
+https://cawme.com/api/v1
+```
 
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+## Authentication
+
+Cawme uses **Clerk** for authentication. Include a Bearer token in every request:
+
+```http
+Authorization: Bearer <your-token>
+```
+
+See the [Authentication guide](/guides/authentication) for details.

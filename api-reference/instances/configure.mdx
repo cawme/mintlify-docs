@@ -1,0 +1,74 @@
+---
+title: "Configure Instance"
+description: "GET /v1/instances/:instanceId/configure — Get the QR code to pair a WhatsApp number"
+---
+
+`GET /v1/instances/:instanceId/configure`
+
+Returns a Base64-encoded QR code that you scan with WhatsApp to link a phone number to this instance. After scanning, the instance status transitions to `CONFIGURED` and eventually `ACTIVE`.
+
+## Request
+
+### Headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <token>` |
+
+### Path parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `instanceId` | `string` | The instance ID to configure |
+
+## Response `200`
+
+| Field | Type | Description |
+|---|---|---|
+| `instanceId` | `string` | The instance ID |
+| `qrCodeBase64` | `string` | Base64-encoded QR code image |
+| `message` | `string` | Additional status message |
+
+```json
+{
+  "instanceId": "inst_abc123",
+  "qrCodeBase64": "iVBORw0KGgoAAAANSUhEUgAA...",
+  "message": "Scan with WhatsApp to link your number"
+}
+```
+
+## Decoding the QR code
+
+Convert `qrCodeBase64` to an image and display it for scanning:
+
+<Tabs>
+  <Tab title="JavaScript">
+    ```javascript
+    const img = document.createElement("img");
+    img.src = `data:image/png;base64,${response.qrCodeBase64}`;
+    document.body.appendChild(img);
+    ```
+  </Tab>
+  <Tab title="Python">
+    ```python
+    import base64
+
+    with open("qr.png", "wb") as f:
+        f.write(base64.b64decode(response["qrCodeBase64"]))
+    ```
+  </Tab>
+</Tabs>
+
+## Errors
+
+| Code | Description |
+|---|---|
+| `401` | Missing or invalid token |
+| `404` | Instance not found or does not belong to the user |
+
+## Example
+
+```bash
+curl https://cawme.com/api/v1/instances/inst_abc123/configure \
+  -H "Authorization: Bearer <token>"
+```

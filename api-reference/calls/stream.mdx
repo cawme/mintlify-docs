@@ -1,0 +1,105 @@
+---
+title: "Stream Call"
+description: "GET /v1/calls/:callId/stream — WebSocket for real-time audio streaming"
+---
+
+`GET /v1/calls/:callId/stream`
+
+Upgrades an HTTP connection to a WebSocket for real-time bidirectional audio streaming. This endpoint is used with `DYNAMIC_STREAM` calls.
+
+<Warning>
+  WebSocket streaming is currently **in preview** and not yet available in production. The endpoint returns `501 Not Implemented` until it ships.
+</Warning>
+
+## How it works
+
+1. Create a `DYNAMIC_STREAM` call via `POST /v1/calls`
+2. Connect to this WebSocket endpoint using the returned `callId`
+3. Send audio frames; receive transcripts and call events
+
+```
+Client → Server: PCM or MP3 audio frames
+Server → Client: Real-time transcripts and call events
+```
+
+## WebSocket upgrade
+
+```http
+GET /v1/calls/call_xyz789/stream HTTP/1.1
+Host: cawme.com
+Authorization: Bearer <token>
+Upgrade: websocket
+Connection: Upgrade
+```
+
+Successful upgrade returns `101 Switching Protocols`.
+
+## Message format
+
+### Sending audio (client → server)
+
+Send raw PCM or MP3 binary frames over the WebSocket connection.
+
+### Receiving events (server → client)
+
+```json
+{
+  "type": "transcript",
+  "text": "Hello, I'm calling about your recent inquiry.",
+  "timestamp": "2026-03-01T10:01:20Z"
+}
+```
+
+```json
+{
+  "type": "call_event",
+  "event": "answered",
+  "timestamp": "2026-03-01T10:01:15Z"
+}
+```
+
+## Request
+
+### Headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <token>` |
+| `Upgrade` | `websocket` |
+
+### Path parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `callId` | `string` | The call ID for a `DYNAMIC_STREAM` call |
+
+## Errors
+
+| Code | Description |
+|---|---|
+| `401` | Missing or invalid token |
+| `501` | Not yet implemented |
+
+## Example (JavaScript)
+
+```javascript
+const ws = new WebSocket(
+  "wss://cawme.com/api/v1/calls/call_xyz789/stream",
+  [],
+  {
+    headers: {
+      Authorization: "Bearer <token>",
+    },
+  }
+);
+
+ws.onopen = () => {
+  // Send PCM audio frames
+  ws.send(audioBuffer);
+};
+
+ws.onmessage = (event) => {
+  const data = JSON.parse(event.data);
+  console.log(data.type, data.text ?? data.event);
+};
+```

@@ -1,0 +1,140 @@
+---
+title: "Start a Call"
+description: "POST /v1/calls — Initiate an outbound WhatsApp call"
+---
+
+`POST /v1/calls`
+
+Creates and queues an outbound WhatsApp call from an instance. Supports four call types: `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM`, and `DYNAMIC_AGENT`.
+
+If the instance already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS`), the existing call is returned (`200`) instead of creating a duplicate.
+
+## Request
+
+### Headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <token>` |
+| `Content-Type` | `application/json` |
+
+### Body
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `instanceId` | `string` | Yes | The instance to place the call from |
+| `type` | `string` | Yes | Call type: `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM`, or `DYNAMIC_AGENT` |
+| `target.phoneNumber` | `string` | Yes | Destination phone number in E.164 format (e.g., `+14155550123`) |
+| `tts.text` | `string` | FIXED\_TTS only | The message to speak |
+| `tts.voiceId` | `string` | FIXED\_TTS only | Voice identifier (e.g., `en-US-001`) |
+| `audio.audioBase64` | `string` | FIXED\_AUDIO only | Base64-encoded audio file |
+| `agent.instructions` | `string[]` | DYNAMIC\_AGENT only | Natural-language instructions for the AI agent |
+
+### Examples
+
+<Tabs>
+  <Tab title="FIXED_TTS">
+    ```json
+    {
+      "instanceId": "inst_abc123",
+      "type": "FIXED_TTS",
+      "target": { "phoneNumber": "+14155550123" },
+      "tts": {
+        "text": "Hello, this is a call from ACME Corp.",
+        "voiceId": "en-US-001"
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="FIXED_AUDIO">
+    ```json
+    {
+      "instanceId": "inst_abc123",
+      "type": "FIXED_AUDIO",
+      "target": { "phoneNumber": "+14155550123" },
+      "audio": {
+        "audioBase64": "SUQzBAAAAAAA..."
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="DYNAMIC_STREAM">
+    ```json
+    {
+      "instanceId": "inst_abc123",
+      "type": "DYNAMIC_STREAM",
+      "target": { "phoneNumber": "+14155550123" }
+    }
+    ```
+  </Tab>
+  <Tab title="DYNAMIC_AGENT">
+    ```json
+    {
+      "instanceId": "inst_abc123",
+      "type": "DYNAMIC_AGENT",
+      "target": { "phoneNumber": "+14155550123" },
+      "agent": {
+        "instructions": [
+          "Greet the person politely",
+          "Ask if they are interested in a demo",
+          "If yes, schedule a follow-up"
+        ]
+      }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Response
+
+### `201` — Call created
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `string` | Unique call ID (`call_` prefix) |
+| `instance_id` | `string` | Instance that placed the call |
+| `type` | `string` | Call type |
+| `status` | `string` | Always `QUEUED` on creation |
+| `target_phone` | `string` | Destination phone number |
+| `created_at` | `string` | ISO 8601 timestamp |
+
+```json
+{
+  "id": "call_xyz789",
+  "instance_id": "inst_abc123",
+  "type": "FIXED_TTS",
+  "status": "QUEUED",
+  "target_phone": "+14155550123",
+  "created_at": "2026-03-01T10:01:00Z"
+}
+```
+
+### `200` — Existing active call returned
+
+When the instance already has an active call, the existing call object is returned with status `200`.
+
+## Errors
+
+| Code | Description |
+|---|---|
+| `400` | `instanceId`, `type`, or `target.phoneNumber` is missing; invalid `type` value |
+| `401` | Missing or invalid token |
+| `403` | Demo token used with wrong instance |
+| `404` | Instance not found or does not belong to the user |
+
+## Example
+
+```bash
+curl -X POST https://cawme.com/api/v1/calls \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "instanceId": "inst_abc123",
+    "type": "FIXED_TTS",
+    "target": { "phoneNumber": "+14155550123" },
+    "tts": {
+      "text": "Hello, this is a call from ACME Corp.",
+      "voiceId": "en-US-001"
+    }
+  }'
+```

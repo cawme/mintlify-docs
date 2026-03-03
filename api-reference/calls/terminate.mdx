@@ -1,0 +1,44 @@
+---
+title: "Terminate Call"
+description: "DELETE /v1/calls/:callId — Terminate an active call"
+---
+
+`DELETE /v1/calls/:callId`
+
+Terminates an active call. Only calls in `QUEUED`, `RINGING`, or `IN_PROGRESS` state can be terminated. The call status is set to `FAILED` and `ended_at` is recorded.
+
+## Request
+
+### Headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <token>` |
+
+### Path parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `callId` | `string` | The call ID to terminate |
+
+## Response `204`
+
+No content. The call has been terminated.
+
+## Errors
+
+| Code | Description |
+|---|---|
+| `401` | Missing or invalid token |
+| `404` | Call not found, already ended (`COMPLETED` or `FAILED`), or does not belong to the user |
+
+## Example
+
+```bash
+curl -X DELETE https://cawme.com/api/v1/calls/call_xyz789 \
+  -H "Authorization: Bearer <token>"
+```
+
+<Note>
+  Terminating a call sets its status to `FAILED`. There is no separate `CANCELLED` status.
+</Note>

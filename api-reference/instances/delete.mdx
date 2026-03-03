@@ -1,0 +1,44 @@
+---
+title: "Delete Instance"
+description: "DELETE /v1/instances/:instanceId — Soft-delete a WhatsApp instance"
+---
+
+`DELETE /v1/instances/:instanceId`
+
+Soft-deletes an instance by setting its status to `DELETED`. The record is retained in the database but no longer returned in list or get operations.
+
+## Request
+
+### Headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <token>` |
+
+### Path parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `instanceId` | `string` | The instance ID to delete |
+
+## Response `204`
+
+No content. The instance has been deleted.
+
+## Errors
+
+| Code | Description |
+|---|---|
+| `401` | Missing or invalid token |
+| `404` | Instance not found, already deleted, or does not belong to the user |
+
+## Example
+
+```bash
+curl -X DELETE https://cawme.com/api/v1/instances/inst_abc123 \
+  -H "Authorization: Bearer <token>"
+```
+
+<Warning>
+  Deletion is permanent — deleted instances cannot be restored.
+</Warning>

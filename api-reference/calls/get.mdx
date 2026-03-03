@@ -1,0 +1,72 @@
+---
+title: "Get Call"
+description: "GET /v1/calls/:callId — Retrieve the status and details of a call"
+---
+
+`GET /v1/calls/:callId`
+
+Returns the current state of a call, including its status and timestamps.
+
+## Request
+
+### Headers
+
+| Header | Value |
+|---|---|
+| `Authorization` | `Bearer <token>` |
+
+### Path parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `callId` | `string` | The call ID (e.g., `call_xyz789`) |
+
+## Response `200`
+
+| Field | Type | Description |
+|---|---|---|
+| `id` | `string` | Unique call ID |
+| `instance_id` | `string` | Instance that placed the call |
+| `type` | `string` | `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM`, or `DYNAMIC_AGENT` |
+| `status` | `string` | Current call status |
+| `target_phone` | `string` | Destination phone number |
+| `started_at` | `string \| null` | ISO 8601 timestamp when the call connected |
+| `ended_at` | `string \| null` | ISO 8601 timestamp when the call ended |
+| `created_at` | `string` | ISO 8601 timestamp |
+
+### Call statuses
+
+| Status | Description |
+|---|---|
+| `QUEUED` | Call is waiting to be placed |
+| `RINGING` | Call is dialling the recipient |
+| `IN_PROGRESS` | Recipient has answered |
+| `COMPLETED` | Call ended successfully |
+| `FAILED` | Call failed or was terminated |
+
+```json
+{
+  "id": "call_xyz789",
+  "instance_id": "inst_abc123",
+  "type": "FIXED_TTS",
+  "status": "IN_PROGRESS",
+  "target_phone": "+14155550123",
+  "started_at": "2026-03-01T10:01:15Z",
+  "ended_at": null,
+  "created_at": "2026-03-01T10:01:00Z"
+}
+```
+
+## Errors
+
+| Code | Description |
+|---|---|
+| `401` | Missing or invalid token |
+| `404` | Call not found or does not belong to the user |
+
+## Example
+
+```bash
+curl https://cawme.com/api/v1/calls/call_xyz789 \
+  -H "Authorization: Bearer <token>"
+```

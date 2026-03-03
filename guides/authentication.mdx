@@ -1,0 +1,77 @@
+---
+title: "Authentication"
+description: "How to authenticate with the Cawme API"
+---
+
+## Overview
+
+Cawme uses [Clerk](https://clerk.com) for authentication. All protected endpoints require a valid Bearer token in the `Authorization` header.
+
+```http
+Authorization: Bearer <your-clerk-token>
+```
+
+## Getting a token
+
+Obtain your token from the Cawme dashboard or via the Clerk SDK in your application.
+
+<Tabs>
+  <Tab title="JavaScript (Clerk SDK)">
+    ```javascript
+    import { useAuth } from "@clerk/nextjs";
+
+    const { getToken } = useAuth();
+    const token = await getToken();
+
+    const response = await fetch("https://cawme.com/api/v1/instances", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    ```
+  </Tab>
+  <Tab title="cURL">
+    ```bash
+    curl https://cawme.com/api/v1/instances \
+      -H "Authorization: Bearer <your-token>"
+    ```
+  </Tab>
+</Tabs>
+
+## Demo mode
+
+For quick testing without a full Clerk setup, Cawme supports a **demo token**. Demo requests:
+
+- Use a fixed shared demo instance
+- Are rate-limited per IP
+- Require no account creation
+
+Contact [support@cawme.com](mailto:support@cawme.com) to get a demo token, then use it like any other Bearer token:
+
+```bash
+curl -X POST https://cawme.com/api/v1/calls \
+  -H "Authorization: Bearer <demo-token>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "instanceId": "<demo-instance-id>",
+    "type": "FIXED_TTS",
+    "target": { "phoneNumber": "+14155550123" },
+    "tts": { "text": "Hello from Cawme demo!", "voiceId": "en-US-001" }
+  }'
+```
+
+## Public endpoints
+
+The following endpoint does **not** require authentication:
+
+| Endpoint | Description |
+|---|---|
+| `POST /v1/leads` | Register a lead or sign-up interest |
+
+## Error responses
+
+| Code | Meaning |
+|---|---|
+| `401` | Missing or invalid token |
+| `403` | Token valid but access denied (e.g., wrong instance in demo mode) |

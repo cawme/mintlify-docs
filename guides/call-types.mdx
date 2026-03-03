@@ -1,0 +1,110 @@
+---
+title: "Call Types"
+description: "The four types of WhatsApp calls supported by Cawme"
+---
+
+Cawme supports four call types, each suited for different use cases. Set the `type` field when [creating a call](/api-reference/calls/create).
+
+---
+
+## FIXED\_TTS
+
+Convert text to speech and play it during the call. The simplest call type — just provide a message and a voice.
+
+```json
+{
+  "instanceId": "inst_abc123",
+  "type": "FIXED_TTS",
+  "target": { "phoneNumber": "+14155550123" },
+  "tts": {
+    "text": "Hi John, your appointment is confirmed for tomorrow at 2pm.",
+    "voiceId": "en-US-001"
+  }
+}
+```
+
+**Use cases:** Order notifications, appointment reminders, payment alerts, one-way announcements.
+
+---
+
+## FIXED\_AUDIO
+
+Play a pre-recorded audio file (Base64 encoded MP3 or WAV). Best when you need a polished, branded voice message.
+
+```json
+{
+  "instanceId": "inst_abc123",
+  "type": "FIXED_AUDIO",
+  "target": { "phoneNumber": "+14155550123" },
+  "audio": {
+    "audioBase64": "SUQzBAAAAAAA..."
+  }
+}
+```
+
+**Use cases:** Marketing campaigns, branded announcements, compliance recordings.
+
+---
+
+## DYNAMIC\_STREAM
+
+Stream real-time PCM or MP3 audio frames over a WebSocket. Use this when you want full control over the audio pipeline — connect your own TTS, translation layer, or live human agent.
+
+```json
+{
+  "instanceId": "inst_abc123",
+  "type": "DYNAMIC_STREAM",
+  "target": { "phoneNumber": "+14155550123" }
+}
+```
+
+After the call is created, establish a WebSocket connection at `GET /v1/calls/:callId/stream`:
+
+- **Client → Server:** Send PCM or MP3 audio frames
+- **Server → Client:** Receive real-time transcripts and call events
+
+**Use cases:** Live agent-assisted calls, custom voice bots, real-time translation.
+
+<Note>
+  WebSocket streaming is currently in preview. See [Stream endpoint](/api-reference/calls/stream) for details.
+</Note>
+
+---
+
+## DYNAMIC\_AGENT
+
+Deploy an AI agent that conducts the call autonomously based on natural-language instructions. The agent handles the conversation flow without any manual input.
+
+```json
+{
+  "instanceId": "inst_abc123",
+  "type": "DYNAMIC_AGENT",
+  "target": { "phoneNumber": "+14155550123" },
+  "agent": {
+    "instructions": [
+      "Greet the person politely",
+      "Ask if they are interested in a product demo",
+      "If yes, collect their preferred date and time",
+      "Confirm the appointment before ending the call"
+    ]
+  }
+}
+```
+
+**Use cases:** Sales prospecting, appointment scheduling, customer surveys, lead qualification.
+
+---
+
+## Comparison
+
+| Feature | FIXED\_TTS | FIXED\_AUDIO | DYNAMIC\_STREAM | DYNAMIC\_AGENT |
+|---|:---:|:---:|:---:|:---:|
+| Pre-written message | ✓ | ✓ | — | — |
+| Custom audio file | — | ✓ | — | — |
+| Real-time audio control | — | — | ✓ | — |
+| AI-driven conversation | — | — | — | ✓ |
+| Requires WebSocket | — | — | ✓ | — |
+
+<Card title="Start a call" icon="phone" href="/api-reference/calls/create">
+  POST /v1/calls — full request reference
+</Card>

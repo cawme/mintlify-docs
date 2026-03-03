@@ -1,0 +1,77 @@
+---
+title: "Instances"
+description: "Understand WhatsApp instances in Cawme"
+---
+
+## What is an instance?
+
+An instance represents a WhatsApp phone number connected to Cawme. Each instance:
+
+- Has a unique `id` prefixed with `inst_`
+- Belongs to one user account
+- Maintains an independent call queue
+- Goes through a lifecycle of statuses
+
+## Instance lifecycle
+
+```
+CREATED → CONFIGURED → ACTIVE
+                           ↓
+                        DELETED
+```
+
+| Status | Description |
+|---|---|
+| `CREATED` | Instance registered but no WhatsApp number paired yet |
+| `CONFIGURED` | QR code scanned, WhatsApp number linked |
+| `ACTIVE` | Instance is live and able to make calls |
+| `DELETED` | Soft-deleted; no longer accessible (not physically removed) |
+
+## Pairing a WhatsApp number
+
+After creating an instance, call the configure endpoint to get a QR code:
+
+```bash
+curl https://cawme.com/api/v1/instances/inst_abc123/configure \
+  -H "Authorization: Bearer <token>"
+```
+
+Decode the `qrCodeBase64` value into an image and scan it with WhatsApp on your phone.
+
+## Call queue
+
+When you fetch an instance, the response includes its active `callQueue` — all calls currently in `QUEUED`, `RINGING`, or `IN_PROGRESS` state.
+
+```json
+{
+  "id": "inst_abc123",
+  "name": "sales-team-a",
+  "status": "ACTIVE",
+  "callQueue": [
+    {
+      "id": "call_xyz789",
+      "type": "FIXED_TTS",
+      "status": "QUEUED"
+    }
+  ]
+}
+```
+
+## Idempotency
+
+If you submit a call for an instance that already has an active call (same instance in `QUEUED`, `RINGING`, or `IN_PROGRESS`), the API returns the existing call instead of creating a duplicate. This protects against double-submissions from network retries or client re-renders.
+
+<CardGroup cols={2}>
+  <Card title="Create Instance" icon="plus" href="/api-reference/instances/create">
+    POST /v1/instances
+  </Card>
+  <Card title="Configure Instance" icon="qrcode" href="/api-reference/instances/configure">
+    GET /v1/instances/:instanceId/configure
+  </Card>
+  <Card title="List Instances" icon="list" href="/api-reference/instances/list">
+    GET /v1/instances
+  </Card>
+  <Card title="Delete Instance" icon="trash" href="/api-reference/instances/delete">
+    DELETE /v1/instances/:instanceId
+  </Card>
+</CardGroup>

@@ -1,33 +1,67 @@
 ---
-title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+title: "API Reference"
+description: "Cawme REST API — base URL, authentication, and conventions"
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the api-reference folder.
-</Note>
+## Base URL
 
-## Welcome
+```
+https://cawme.com/api/v1
+```
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+A sandbox environment is available for testing:
 
-<Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
->
-  View the OpenAPI specification file
-</Card>
+```
+https://sandbox.cawme.com/api/v1
+```
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+All endpoints (except `POST /v1/leads`) require a Bearer token:
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
+```http
+Authorization: Bearer <your-clerk-token>
 ```
+
+See the [Authentication guide](/guides/authentication) for details.
+
+## Request format
+
+- All request bodies use `Content-Type: application/json`
+- All timestamps are ISO 8601 in UTC (e.g., `2026-03-01T10:00:00Z`)
+- IDs are prefixed strings: `inst_<hex>` for instances, `call_<hex>` for calls, `lead_<hex>` for leads
+
+## Response codes
+
+| Code | Meaning |
+|---|---|
+| `200` | OK |
+| `201` | Resource created |
+| `204` | No content (successful delete/terminate) |
+| `400` | Bad request — missing or invalid fields |
+| `401` | Unauthorized — missing or invalid token |
+| `403` | Forbidden — valid token but access denied |
+| `404` | Resource not found |
+| `501` | Not yet implemented |
+
+## Idempotency
+
+If you create a call for an instance that already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS`), the API returns the existing call with status `200` instead of creating a duplicate. This guards against double-submissions from network retries or React Strict Mode.
+
+## Rate limiting
+
+Demo token requests are rate-limited per IP. Authenticated requests follow standard fair-use limits.
+
+## Resources
+
+<CardGroup cols={2}>
+  <Card title="Instances" icon="mobile" href="/api-reference/instances/create">
+    Create and manage WhatsApp instances.
+  </Card>
+  <Card title="Calls" icon="phone" href="/api-reference/calls/create">
+    Initiate and manage outbound calls.
+  </Card>
+  <Card title="Leads" icon="user-plus" href="/api-reference/leads/create">
+    Register sign-up interest.
+  </Card>
+</CardGroup>
