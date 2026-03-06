@@ -1,19 +1,19 @@
 ---
-title: "Authentication"
-description: "How to authenticate with the Cawme API"
+title: "Autenticação"
+description: "Como autenticar requisições na API do Cawme"
 ---
 
-## Overview
+## Visão geral
 
-Cawme uses [Clerk](https://clerk.com) for authentication. All protected endpoints require a valid Bearer token in the `Authorization` header.
+O Cawme utiliza o [Clerk](https://clerk.com) para autenticação. Todos os endpoints protegidos exigem um Bearer token válido no cabeçalho `Authorization`.
 
 ```http
-Authorization: Bearer <your-clerk-token>
+Authorization: Bearer <seu-clerk-token>
 ```
 
-## Getting a token
+## Obtendo um token
 
-Obtain your token from the Cawme dashboard or via the Clerk SDK in your application.
+Obtenha seu token no painel do Cawme ou via Clerk SDK na sua aplicação.
 
 <Tabs>
   <Tab title="JavaScript (Clerk SDK)">
@@ -35,29 +35,29 @@ Obtain your token from the Cawme dashboard or via the Clerk SDK in your applicat
   <Tab title="cURL">
     ```bash
     curl https://cawme.com/api/v1/instances \
-      -H "Authorization: Bearer <your-token>"
+      -H "Authorization: Bearer <seu-token>"
     ```
   </Tab>
 </Tabs>
 
-## Demo mode
+## Modo demo
 
-For quick testing without a full Clerk setup, Cawme supports a **demo token**. Demo requests:
+Para testes rápidos sem configurar o Clerk completo, o Cawme suporta um **token demo**. Requisições demo:
 
-- Use a fixed shared demo instance
-- Are rate-limited per IP
-- Require no account creation
+- Utilizam uma instância demo compartilhada e fixa
+- São limitadas por IP (rate limit)
+- Não exigem criação de conta
 
-Contact [support@cawme.com](mailto:support@cawme.com.br) to get a demo token, then use it like any other Bearer token:
+Entre em contato em [support@cawme.com](mailto:support@cawme.com.br) para obter um token demo e use-o como qualquer outro Bearer token:
 
 ```bash
 curl -X POST https://cawme.com/api/v1/calls \
-  -H "Authorization: Bearer <demo-token>" \
+  -H "Authorization: Bearer <token-demo>" \
   -H "Content-Type: application/json" \
   -d '{
-    "instanceId": "<demo-instance-id>",
+    "instanceId": "<id-instancia-demo>",
     "type": "FIXED_TTS",
     "target": { "phoneNumber": "+14155550123" },
-    "tts": { "text": "Hello from Cawme demo!", "voiceId": "en-US-001" }
+    "tts": { "text": "Olá pelo demo do Cawme!", "voiceId": "pt-BR-001" }
   }'
 ```

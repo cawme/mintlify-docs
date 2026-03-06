@@ -1,18 +1,18 @@
 ---
-title: "Instances"
-description: "Understand WhatsApp instances in Cawme"
+title: "Instâncias"
+description: "Entenda as instâncias do WhatsApp no Cawme"
 ---
 
-## What is an instance?
+## O que é uma instância?
 
-An instance represents a WhatsApp phone number connected to Cawme. Each instance:
+Uma instância representa um número de telefone do WhatsApp conectado ao Cawme. Cada instância:
 
-- Has a unique `id` prefixed with `inst_`
-- Belongs to one user account
-- Maintains an independent call queue
-- Goes through a lifecycle of statuses
+- Possui um `id` único com prefixo `inst_`
+- Pertence a uma única conta de usuário
+- Mantém uma fila de chamadas independente
+- Passa por um ciclo de vida com diferentes status
 
-## Instance lifecycle
+## Ciclo de vida da instância
 
 ```
 CREATED → CONFIGURED → ACTIVE
@@ -20,27 +20,27 @@ CREATED → CONFIGURED → ACTIVE
                         DELETED
 ```
 
-| Status | Description |
+| Status | Descrição |
 |---|---|
-| `CREATED` | Instance registered but no WhatsApp number paired yet |
-| `CONFIGURED` | QR code scanned, WhatsApp number linked |
-| `ACTIVE` | Instance is live and able to make calls |
-| `DELETED` | Soft-deleted; no longer accessible (not physically removed) |
+| `CREATED` | Instância registrada, mas sem número de WhatsApp vinculado |
+| `CONFIGURED` | QR code escaneado, número de WhatsApp vinculado |
+| `ACTIVE` | Instância ativa e pronta para realizar chamadas |
+| `DELETED` | Soft-delete; não está mais acessível (não foi removida fisicamente) |
 
-## Pairing a WhatsApp number
+## Vinculando um número de WhatsApp
 
-After creating an instance, call the configure endpoint to get a QR code:
+Após criar uma instância, chame o endpoint de configuração para obter o QR code:
 
 ```bash
 curl https://cawme.com/api/v1/instances/inst_abc123/configure \
   -H "Authorization: Bearer <token>"
 ```
 
-Decode the `qrCodeBase64` value into an image and scan it with WhatsApp on your phone.
+Decodifique o valor de `qrCodeBase64` em uma imagem e escaneie com o WhatsApp no seu celular.
 
-## Call queue
+## Fila de chamadas
 
-When you fetch an instance, the response includes its active `callQueue` — all calls currently in `QUEUED`, `RINGING`, or `IN_PROGRESS` state.
+Ao buscar uma instância, a resposta inclui sua `callQueue` ativa — todas as chamadas atualmente nos status `QUEUED`, `RINGING` ou `IN_PROGRESS`.
 
 ```json
 {
@@ -57,21 +57,21 @@ When you fetch an instance, the response includes its active `callQueue` — all
 }
 ```
 
-## Idempotency
+## Idempotência
 
-If you submit a call for an instance that already has an active call (same instance in `QUEUED`, `RINGING`, or `IN_PROGRESS`), the API returns the existing call instead of creating a duplicate. This protects against double-submissions from network retries or client re-renders.
+Se você enviar uma chamada para uma instância que já possui uma chamada ativa (nos status `QUEUED`, `RINGING` ou `IN_PROGRESS`), a API retorna a chamada existente em vez de criar uma duplicata. Isso protege contra envios duplicados causados por retentativas de rede ou re-renderizações do cliente.
 
 <CardGroup cols={2}>
-  <Card title="Create Instance" icon="plus" href="/api-reference/instances/create">
+  <Card title="Criar Instância" icon="plus" href="/api-reference/instances/create">
     POST /v1/instances
   </Card>
-  <Card title="Configure Instance" icon="qrcode" href="/api-reference/instances/configure">
+  <Card title="Configurar Instância" icon="qrcode" href="/api-reference/instances/configure">
     GET /v1/instances/:instanceId/configure
   </Card>
-  <Card title="List Instances" icon="list" href="/api-reference/instances/list">
+  <Card title="Listar Instâncias" icon="list" href="/api-reference/instances/list">
     GET /v1/instances
   </Card>
-  <Card title="Delete Instance" icon="trash" href="/api-reference/instances/delete">
+  <Card title="Deletar Instância" icon="trash" href="/api-reference/instances/delete">
     DELETE /v1/instances/:instanceId
   </Card>
 </CardGroup>

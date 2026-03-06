@@ -1,39 +1,39 @@
 ---
-title: "Delete Instance"
-description: "DELETE /v1/instances/:instanceId — Soft-delete a WhatsApp instance"
+title: "Deletar Instância"
+description: "DELETE /v1/instances/:instanceId — Soft-delete de uma instância do WhatsApp"
 openapi: "DELETE /v1/instances/{instanceId}"
 ---
 
 `DELETE /v1/instances/:instanceId`
 
-Soft-deletes an instance by setting its status to `DELETED`. The record is retained in the database but no longer returned in list or get operations.
+Realiza o soft-delete de uma instância, definindo seu status como `DELETED`. O registro é mantido no banco de dados, mas não é mais retornado nas operações de listagem ou busca.
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 
-### Path parameters
+### Parâmetros de caminho
 
-| Parameter | Type | Description |
+| Parâmetro | Tipo | Descrição |
 |---|---|---|
-| `instanceId` | `string` | The instance ID to delete |
+| `instanceId` | `string` | O ID da instância a ser deletada |
 
-## Response `204`
+## Resposta `204`
 
-No content. The instance has been deleted.
+Sem conteúdo. A instância foi deletada.
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
-| `404` | Instance not found, already deleted, or does not belong to the user |
+| `401` | Token ausente ou inválido |
+| `404` | Instância não encontrada, já deletada ou não pertence ao usuário |
 
-## Example
+## Exemplo
 
 ```bash
 curl -X DELETE https://cawme.com/api/v1/instances/inst_abc123 \
@@ -41,5 +41,5 @@ curl -X DELETE https://cawme.com/api/v1/instances/inst_abc123 \
 ```
 
 <Warning>
-  Deletion is permanent — deleted instances cannot be restored.
+  A exclusão é permanente — instâncias deletadas não podem ser restauradas.
 </Warning>

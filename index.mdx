@@ -1,45 +1,45 @@
 ---
-title: "Welcome to Cawme"
-description: "The easiest way to make WhatsApp calls via API"
+title: "Bem-vindo ao Cawme"
+description: "A forma mais simples de realizar chamadas no WhatsApp via API"
 ---
 
-## What is Cawme?
+## O que é o Cawme?
 
-Cawme lets businesses programmatically make WhatsApp voice calls to their customers. Whether you want to send a fixed TTS message, play a pre-recorded audio file, stream real-time audio, or deploy an AI agent for dynamic conversations — Cawme handles it all through a simple REST API.
+O Cawme permite que empresas realizem chamadas de voz no WhatsApp de forma programática para seus clientes. Seja para enviar uma mensagem TTS fixa, reproduzir um arquivo de áudio pré-gravado, transmitir áudio em tempo real ou implantar um agente de IA para conversas dinâmicas — o Cawme cuida de tudo por meio de uma API REST simples.
 
 <CardGroup cols={2}>
-  <Card title="Quickstart" icon="rocket" href="/quickstart">
-    Make your first WhatsApp call in minutes.
+  <Card title="Início Rápido" icon="rocket" href="/quickstart">
+    Faça sua primeira chamada no WhatsApp em minutos.
   </Card>
-  <Card title="Authentication" icon="lock" href="/guides/authentication">
-    Learn how to authenticate API requests.
+  <Card title="Autenticação" icon="lock" href="/guides/authentication">
+    Saiba como autenticar requisições na API.
   </Card>
-  <Card title="Instances" icon="mobile" href="/guides/instances">
-    Understand how WhatsApp instances work.
+  <Card title="Instâncias" icon="mobile" href="/guides/instances">
+    Entenda como funcionam as instâncias do WhatsApp.
   </Card>
-  <Card title="Call Types" icon="phone" href="/guides/call-types">
-    Explore the four types of calls you can make.
+  <Card title="Tipos de Chamada" icon="phone" href="/guides/call-types">
+    Explore os quatro tipos de chamadas disponíveis.
   </Card>
 </CardGroup>
 
-## Key concepts
+## Conceitos principais
 
-- **Instance** — A WhatsApp number paired to Cawme. Each instance has its own call queue and progresses through statuses: `CREATED`, `CONFIGURED`, `ACTIVE`, or `DELETED`.
-- **Call** — A single outbound call initiated from an instance. Calls move through: `QUEUED → RINGING → IN_PROGRESS → COMPLETED / FAILED`.
-- **Call types** — Four modes: [`FIXED_TTS`](/guides/call-types#fixed-tts), [`FIXED_AUDIO`](/guides/call-types#fixed-audio), [`DYNAMIC_STREAM`](/guides/call-types#dynamic-stream), and [`DYNAMIC_AGENT`](/guides/call-types#dynamic-agent).
+- **Instância** — Um número de WhatsApp vinculado ao Cawme. Cada instância possui sua própria fila de chamadas e avança pelos status: `CREATED`, `CONFIGURED`, `ACTIVE` ou `DELETED`.
+- **Chamada** — Uma chamada de saída iniciada por uma instância. As chamadas passam por: `QUEUED → RINGING → IN_PROGRESS → COMPLETED / FAILED`.
+- **Tipos de chamada** — Quatro modos: [`FIXED_TTS`](/guides/call-types#fixed-tts), [`FIXED_AUDIO`](/guides/call-types#fixed-audio), [`DYNAMIC_STREAM`](/guides/call-types#dynamic-stream) e [`DYNAMIC_AGENT`](/guides/call-types#dynamic-agent).
 
-## Base URL
+## URL base
 
 ```
 https://cawme.com/api/v1
 ```
 
-## Authentication
+## Autenticação
 
-Cawme uses **Clerk** for authentication. Include a Bearer token in every request:
+O Cawme utiliza o **Clerk** para autenticação. Inclua um Bearer token em todas as requisições:
 
 ```http
-Authorization: Bearer <your-token>
+Authorization: Bearer <seu-token>
 ```
 
-See the [Authentication guide](/guides/authentication) for details.
+Consulte o [guia de Autenticação](/guides/authentication) para mais detalhes.

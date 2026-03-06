@@ -1,46 +1,46 @@
 ---
-title: "Configure Instance"
-description: "GET /v1/instances/:instanceId/configure — Get the QR code to pair a WhatsApp number"
+title: "Configurar Instância"
+description: "GET /v1/instances/:instanceId/configure — Obtém o QR code para vincular um número de WhatsApp"
 openapi: "GET /v1/instances/{instanceId}/configure"
 ---
 
 `GET /v1/instances/:instanceId/configure`
 
-Returns a Base64-encoded QR code that you scan with WhatsApp to link a phone number to this instance. After scanning, the instance status transitions to `CONFIGURED` and eventually `ACTIVE`.
+Retorna um QR code codificado em Base64 que você escaneia com o WhatsApp para vincular um número de telefone a esta instância. Após escanear, o status da instância transita para `CONFIGURED` e eventualmente para `ACTIVE`.
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 
-### Path parameters
+### Parâmetros de caminho
 
-| Parameter | Type | Description |
+| Parâmetro | Tipo | Descrição |
 |---|---|---|
-| `instanceId` | `string` | The instance ID to configure |
+| `instanceId` | `string` | O ID da instância a configurar |
 
-## Response `200`
+## Resposta `200`
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 |---|---|---|
-| `instanceId` | `string` | The instance ID |
-| `qrCodeBase64` | `string` | Base64-encoded QR code image |
-| `message` | `string` | Additional status message |
+| `instanceId` | `string` | O ID da instância |
+| `qrCodeBase64` | `string` | Imagem do QR code codificada em Base64 |
+| `message` | `string` | Mensagem de status adicional |
 
 ```json
 {
   "instanceId": "inst_abc123",
   "qrCodeBase64": "iVBORw0KGgoAAAANSUhEUgAA...",
-  "message": "Scan with WhatsApp to link your number"
+  "message": "Escaneie com o WhatsApp para vincular seu número"
 }
 ```
 
-## Decoding the QR code
+## Decodificando o QR code
 
-Convert `qrCodeBase64` to an image and display it for scanning:
+Converta `qrCodeBase64` em uma imagem e exiba para escaneamento:
 
 <Tabs>
   <Tab title="JavaScript">
@@ -60,14 +60,14 @@ Convert `qrCodeBase64` to an image and display it for scanning:
   </Tab>
 </Tabs>
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
-| `404` | Instance not found or does not belong to the user |
+| `401` | Token ausente ou inválido |
+| `404` | Instância não encontrada ou não pertence ao usuário |
 
-## Example
+## Exemplo
 
 ```bash
 curl https://cawme.com/api/v1/instances/inst_abc123/configure \

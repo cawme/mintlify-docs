@@ -1,37 +1,37 @@
 ---
-title: "Start a Call"
-description: "POST /v1/calls — Initiate an outbound WhatsApp call"
+title: "Iniciar Chamada"
+description: "POST /v1/calls — Inicia uma chamada de saída no WhatsApp"
 openapi: "POST /v1/calls"
 ---
 
 `POST /v1/calls`
 
-Creates and queues an outbound WhatsApp call from an instance. Supports four call types: `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM`, and `DYNAMIC_AGENT`.
+Cria e enfileira uma chamada de saída no WhatsApp a partir de uma instância. Suporta quatro tipos de chamada: `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM` e `DYNAMIC_AGENT`.
 
-If the instance already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS`), the existing call is returned (`200`) instead of creating a duplicate.
+Se a instância já possuir uma chamada ativa (`QUEUED`, `RINGING` ou `IN_PROGRESS`), a chamada existente é retornada (`200`) em vez de criar uma duplicata.
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 | `Content-Type` | `application/json` |
 
-### Body
+### Corpo
 
-| Field | Type | Required | Description |
+| Campo | Tipo | Obrigatório | Descrição |
 |---|---|---|---|
-| `instanceId` | `string` | Yes | The instance to place the call from |
-| `type` | `string` | Yes | Call type: `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM`, or `DYNAMIC_AGENT` |
-| `target.phoneNumber` | `string` | Yes | Destination phone number in E.164 format (e.g., `+14155550123`) |
-| `tts.text` | `string` | FIXED\_TTS only | The message to speak |
-| `tts.voiceId` | `string` | FIXED\_TTS only | Voice identifier (e.g., `en-US-001`) |
-| `audio.audioBase64` | `string` | FIXED\_AUDIO only | Base64-encoded audio file |
-| `agent.instructions` | `string[]` | DYNAMIC\_AGENT only | Natural-language instructions for the AI agent |
+| `instanceId` | `string` | Sim | A instância a partir da qual a chamada será realizada |
+| `type` | `string` | Sim | Tipo de chamada: `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM` ou `DYNAMIC_AGENT` |
+| `target.phoneNumber` | `string` | Sim | Número de destino no formato E.164 (ex.: `+14155550123`) |
+| `tts.text` | `string` | Apenas FIXED\_TTS | A mensagem a ser falada |
+| `tts.voiceId` | `string` | Apenas FIXED\_TTS | Identificador da voz (ex.: `pt-BR-001`) |
+| `audio.audioBase64` | `string` | Apenas FIXED\_AUDIO | Arquivo de áudio codificado em Base64 |
+| `agent.instructions` | `string[]` | Apenas DYNAMIC\_AGENT | Instruções em linguagem natural para o agente de IA |
 
-### Examples
+### Exemplos
 
 <Tabs>
   <Tab title="FIXED_TTS">
@@ -41,8 +41,8 @@ If the instance already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS
       "type": "FIXED_TTS",
       "target": { "phoneNumber": "+14155550123" },
       "tts": {
-        "text": "Hello, this is a call from ACME Corp.",
-        "voiceId": "en-US-001"
+        "text": "Olá, esta é uma ligação da ACME Corp.",
+        "voiceId": "pt-BR-001"
       }
     }
     ```
@@ -76,9 +76,9 @@ If the instance already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS
       "target": { "phoneNumber": "+14155550123" },
       "agent": {
         "instructions": [
-          "Greet the person politely",
-          "Ask if they are interested in a demo",
-          "If yes, schedule a follow-up"
+          "Cumprimente a pessoa educadamente",
+          "Pergunte se ela tem interesse em uma demonstração",
+          "Se sim, agende um follow-up"
         ]
       }
     }
@@ -86,18 +86,18 @@ If the instance already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS
   </Tab>
 </Tabs>
 
-## Response
+## Resposta
 
-### `201` — Call created
+### `201` — Chamada criada
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 |---|---|---|
-| `id` | `string` | Unique call ID (`call_` prefix) |
-| `instance_id` | `string` | Instance that placed the call |
-| `type` | `string` | Call type |
-| `status` | `string` | Always `QUEUED` on creation |
-| `target_phone` | `string` | Destination phone number |
-| `created_at` | `string` | ISO 8601 timestamp |
+| `id` | `string` | ID único da chamada (prefixo `call_`) |
+| `instance_id` | `string` | Instância que realizou a chamada |
+| `type` | `string` | Tipo de chamada |
+| `status` | `string` | Sempre `QUEUED` na criação |
+| `target_phone` | `string` | Número de destino |
+| `created_at` | `string` | Timestamp ISO 8601 |
 
 ```json
 {
@@ -110,20 +110,20 @@ If the instance already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS
 }
 ```
 
-### `200` — Existing active call returned
+### `200` — Chamada ativa existente retornada
 
-When the instance already has an active call, the existing call object is returned with status `200`.
+Quando a instância já possui uma chamada ativa, o objeto da chamada existente é retornado com status `200`.
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `400` | `instanceId`, `type`, or `target.phoneNumber` is missing; invalid `type` value |
-| `401` | Missing or invalid token |
-| `403` | Demo token used with wrong instance |
-| `404` | Instance not found or does not belong to the user |
+| `400` | `instanceId`, `type` ou `target.phoneNumber` está ausente; valor de `type` inválido |
+| `401` | Token ausente ou inválido |
+| `403` | Token demo utilizado com instância incorreta |
+| `404` | Instância não encontrada ou não pertence ao usuário |
 
-## Example
+## Exemplo
 
 ```bash
 curl -X POST https://cawme.com/api/v1/calls \
@@ -134,8 +134,8 @@ curl -X POST https://cawme.com/api/v1/calls \
     "type": "FIXED_TTS",
     "target": { "phoneNumber": "+14155550123" },
     "tts": {
-      "text": "Hello, this is a call from ACME Corp.",
-      "voiceId": "en-US-001"
+      "text": "Olá, esta é uma ligação da ACME Corp.",
+      "voiceId": "pt-BR-001"
     }
   }'
 ```

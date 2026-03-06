@@ -1,64 +1,64 @@
 ---
-title: "API Reference"
-description: "Cawme REST API — base URL, authentication, and conventions"
+title: "Referência da API"
+description: "API REST do Cawme — URL base, autenticação e convenções"
 ---
 
-## Base URL
+## URL base
 
 ```
 https://cawme.com/api/v1
 ```
 
-A sandbox environment is available for testing:
+Um ambiente sandbox está disponível para testes:
 
 ```
 https://sandbox.cawme.com/api/v1
 ```
 
-## Authentication
+## Autenticação
 
-All endpoints require a Bearer token:
+Todos os endpoints exigem um Bearer token:
 
 ```http
-Authorization: Bearer <your-clerk-token>
+Authorization: Bearer <seu-clerk-token>
 ```
 
-See the [Authentication guide](/guides/authentication) for details.
+Consulte o [guia de Autenticação](/guides/authentication) para mais detalhes.
 
-## Request format
+## Formato das requisições
 
-- All request bodies use `Content-Type: application/json`
-- All timestamps are ISO 8601 in UTC (e.g., `2026-03-01T10:00:00Z`)
-- IDs are prefixed strings: `inst_<hex>` for instances, `call_<hex>` for calls
+- Todos os corpos de requisição usam `Content-Type: application/json`
+- Todos os timestamps são ISO 8601 em UTC (ex.: `2026-03-01T10:00:00Z`)
+- Os IDs são strings com prefixo: `inst_<hex>` para instâncias, `call_<hex>` para chamadas
 
-## Response codes
+## Códigos de resposta
 
-| Code  | Meaning                                   |
-| ----- | ----------------------------------------- |
-| `200` | OK                                        |
-| `201` | Resource created                          |
-| `204` | No content (successful delete/terminate)  |
-| `400` | Bad request — missing or invalid fields   |
-| `401` | Unauthorized — missing or invalid token   |
-| `403` | Forbidden — valid token but access denied |
-| `404` | Resource not found                        |
-| `501` | Not yet implemented                       |
+| Código | Significado                                          |
+| ------ | ---------------------------------------------------- |
+| `200`  | OK                                                   |
+| `201`  | Recurso criado                                       |
+| `204`  | Sem conteúdo (delete ou terminate bem-sucedido)      |
+| `400`  | Requisição inválida — campos ausentes ou incorretos  |
+| `401`  | Não autorizado — token ausente ou inválido           |
+| `403`  | Proibido — token válido, mas sem permissão de acesso |
+| `404`  | Recurso não encontrado                               |
+| `501`  | Ainda não implementado                               |
 
-## Idempotency
+## Idempotência
 
-If you create a call for an instance that already has an active call (`QUEUED`, `RINGING`, or `IN_PROGRESS`), the API returns the existing call with status `200` instead of creating a duplicate. This guards against double-submissions from network retries or React Strict Mode.
+Se você criar uma chamada para uma instância que já possui uma chamada ativa (`QUEUED`, `RINGING` ou `IN_PROGRESS`), a API retorna a chamada existente com status `200` em vez de criar uma duplicata. Isso protege contra envios duplicados causados por retentativas de rede ou pelo React Strict Mode.
 
-## Rate limiting
+## Limites de taxa (Rate Limiting)
 
-Demo token requests are rate-limited per IP. Authenticated requests follow standard fair-use limits.
+Requisições com token demo são limitadas por IP. Requisições autenticadas seguem limites padrão de uso justo.
 
-## Resources
+## Recursos
 
 <CardGroup cols={2}>
-  <Card title="Instances" icon="mobile" href="/api-reference/instances/create">
-    Create and manage WhatsApp instances.
+  <Card title="Instâncias" icon="mobile" href="/api-reference/instances/create">
+    Crie e gerencie instâncias do WhatsApp.
   </Card>
-  <Card title="Calls" icon="phone" href="/api-reference/calls/create">
-    Initiate and manage outbound calls.
+  <Card title="Chamadas" icon="phone" href="/api-reference/calls/create">
+    Inicie e gerencie chamadas de saída.
   </Card>
 </CardGroup>

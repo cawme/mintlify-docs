@@ -1,30 +1,30 @@
 ---
-title: "Quickstart"
-description: "Make your first WhatsApp call in under 5 minutes"
+title: "Início Rápido"
+description: "Faça sua primeira chamada no WhatsApp em menos de 5 minutos"
 ---
 
-## Prerequisites
+## Pré-requisitos
 
-- A Cawme account — [sign up at cawme.com](https://cawme.com)
-- Your Bearer token from the [dashboard](https://cawme.com/dashboard)
+- Uma conta no Cawme — [cadastre-se em cawme.com](https://cawme.com)
+- Seu Bearer token obtido no [painel](https://cawme.com/dashboard)
 
 ---
 
-## Step 1: Create an instance
+## Passo 1: Criar uma instância
 
-An instance represents a WhatsApp number. You must create one before placing any calls.
+Uma instância representa um número de WhatsApp. Você precisa criar uma antes de realizar qualquer chamada.
 
 ```bash
 curl -X POST https://cawme.com/api/v1/instances \
-  -H "Authorization: Bearer <your-token>" \
+  -H "Authorization: Bearer <seu-token>" \
   -H "Content-Type: application/json" \
-  -d '{"name": "my-first-instance"}'
+  -d '{"name": "minha-primeira-instancia"}'
 ```
 
 ```json
 {
   "id": "inst_abc123",
-  "name": "my-first-instance",
+  "name": "minha-primeira-instancia",
   "status": "CREATED",
   "created_at": "2026-03-01T10:00:00Z"
 }
@@ -32,13 +32,13 @@ curl -X POST https://cawme.com/api/v1/instances \
 
 ---
 
-## Step 2: Pair your WhatsApp number
+## Passo 2: Vincular seu número de WhatsApp
 
-Fetch the QR code and scan it with WhatsApp on your phone to link the number:
+Obtenha o QR code e escaneie com o WhatsApp no seu celular para vincular o número:
 
 ```bash
 curl https://cawme.com/api/v1/instances/inst_abc123/configure \
-  -H "Authorization: Bearer <your-token>"
+  -H "Authorization: Bearer <seu-token>"
 ```
 
 ```json
@@ -48,25 +48,25 @@ curl https://cawme.com/api/v1/instances/inst_abc123/configure \
 }
 ```
 
-Decode `qrCodeBase64` into an image and scan it. Once scanned, your instance status will move to `CONFIGURED` and eventually `ACTIVE`.
+Decodifique `qrCodeBase64` em uma imagem e escaneie. Após escanear, o status da instância avançará para `CONFIGURED` e depois para `ACTIVE`.
 
 ---
 
-## Step 3: Make a call
+## Passo 3: Realizar uma chamada
 
-Place a Text-to-Speech (TTS) call:
+Faça uma chamada Text-to-Speech (TTS):
 
 ```bash
 curl -X POST https://cawme.com/api/v1/calls \
-  -H "Authorization: Bearer <your-token>" \
+  -H "Authorization: Bearer <seu-token>" \
   -H "Content-Type: application/json" \
   -d '{
     "instanceId": "inst_abc123",
     "type": "FIXED_TTS",
     "target": { "phoneNumber": "+14155550123" },
     "tts": {
-      "text": "Hello, this is a call from ACME Corp.",
-      "voiceId": "en-US-001"
+      "text": "Olá, esta é uma ligação da ACME Corp.",
+      "voiceId": "pt-BR-001"
     }
   }'
 ```
@@ -81,24 +81,24 @@ curl -X POST https://cawme.com/api/v1/calls \
 
 ---
 
-## Step 4: Check call status
+## Passo 4: Verificar o status da chamada
 
 ```bash
 curl https://cawme.com/api/v1/calls/call_xyz789 \
-  -H "Authorization: Bearer <your-token>"
+  -H "Authorization: Bearer <seu-token>"
 ```
 
-The `status` field progresses: `QUEUED → RINGING → IN_PROGRESS → COMPLETED`.
+O campo `status` avança assim: `QUEUED → RINGING → IN_PROGRESS → COMPLETED`.
 
 ---
 
-## Next steps
+## Próximos passos
 
 <CardGroup cols={2}>
-  <Card title="Call Types" icon="phone" href="/guides/call-types">
-    Learn about FIXED_AUDIO, DYNAMIC_STREAM, and DYNAMIC_AGENT.
+  <Card title="Tipos de Chamada" icon="phone" href="/guides/call-types">
+    Conheça FIXED_AUDIO, DYNAMIC_STREAM e DYNAMIC_AGENT.
   </Card>
-  <Card title="API Reference" icon="terminal" href="/api-reference/introduction">
-    Full reference for all endpoints.
+  <Card title="Referência da API" icon="terminal" href="/api-reference/introduction">
+    Referência completa de todos os endpoints.
   </Card>
 </CardGroup>

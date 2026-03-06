@@ -1,33 +1,33 @@
 ---
-title: "List Instances"
-description: "GET /v1/instances — List all instances for the authenticated user"
+title: "Listar Instâncias"
+description: "GET /v1/instances — Lista todas as instâncias do usuário autenticado"
 openapi: "GET /v1/instances"
 ---
 
 `GET /v1/instances`
 
-Returns all non-deleted instances belonging to the authenticated user, ordered by creation date (newest first).
+Retorna todas as instâncias não deletadas do usuário autenticado, ordenadas pela data de criação (mais recentes primeiro).
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 
-## Response `200`
+## Resposta `200`
 
-Returns an array of instance objects.
+Retorna um array de objetos de instância.
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 |---|---|---|
-| `id` | `string` | Unique instance ID |
-| `name` | `string` | Instance label |
-| `status` | `string` | `CREATED`, `CONFIGURED`, or `ACTIVE` |
-| `metadata` | `object` | Instance metadata |
-| `created_at` | `string` | ISO 8601 timestamp |
-| `updated_at` | `string` | ISO 8601 timestamp |
+| `id` | `string` | ID único da instância |
+| `name` | `string` | Rótulo da instância |
+| `status` | `string` | `CREATED`, `CONFIGURED` ou `ACTIVE` |
+| `metadata` | `object` | Metadados da instância |
+| `created_at` | `string` | Timestamp ISO 8601 |
+| `updated_at` | `string` | Timestamp ISO 8601 |
 
 ```json
 [
@@ -51,16 +51,16 @@ Returns an array of instance objects.
 ```
 
 <Note>
-  Deleted instances (status `DELETED`) are excluded from this list.
+  Instâncias deletadas (status `DELETED`) são excluídas desta listagem.
 </Note>
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
+| `401` | Token ausente ou inválido |
 
-## Example
+## Exemplo
 
 ```bash
 curl https://cawme.com/api/v1/instances \

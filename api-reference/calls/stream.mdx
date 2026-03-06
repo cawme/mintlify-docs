@@ -1,29 +1,29 @@
 ---
-title: "Stream Call"
-description: "GET /v1/calls/:callId/stream — WebSocket for real-time audio streaming"
+title: "Stream de Chamada"
+description: "GET /v1/calls/:callId/stream — WebSocket para streaming de áudio em tempo real"
 openapi: "GET /v1/calls/{callId}/stream"
 ---
 
 `GET /v1/calls/:callId/stream`
 
-Upgrades an HTTP connection to a WebSocket for real-time bidirectional audio streaming. This endpoint is used with `DYNAMIC_STREAM` calls.
+Faz o upgrade de uma conexão HTTP para WebSocket para streaming de áudio bidirecional em tempo real. Este endpoint é utilizado com chamadas do tipo `DYNAMIC_STREAM`.
 
 <Warning>
-  WebSocket streaming is currently **in preview** and not yet available in production. The endpoint returns `501 Not Implemented` until it ships.
+  O streaming via WebSocket está atualmente **em preview** e ainda não está disponível em produção. O endpoint retorna `501 Not Implemented` até o lançamento.
 </Warning>
 
-## How it works
+## Como funciona
 
-1. Create a `DYNAMIC_STREAM` call via `POST /v1/calls`
-2. Connect to this WebSocket endpoint using the returned `callId`
-3. Send audio frames; receive transcripts and call events
+1. Crie uma chamada `DYNAMIC_STREAM` via `POST /v1/calls`
+2. Conecte-se a este endpoint WebSocket usando o `callId` retornado
+3. Envie frames de áudio; receba transcrições e eventos da chamada
 
 ```
-Client → Server: PCM or MP3 audio frames
-Server → Client: Real-time transcripts and call events
+Cliente → Servidor: Frames de áudio PCM ou MP3
+Servidor → Cliente: Transcrições em tempo real e eventos da chamada
 ```
 
-## WebSocket upgrade
+## Upgrade do WebSocket
 
 ```http
 GET /v1/calls/call_xyz789/stream HTTP/1.1
@@ -33,20 +33,20 @@ Upgrade: websocket
 Connection: Upgrade
 ```
 
-Successful upgrade returns `101 Switching Protocols`.
+O upgrade bem-sucedido retorna `101 Switching Protocols`.
 
-## Message format
+## Formato das mensagens
 
-### Sending audio (client → server)
+### Enviando áudio (cliente → servidor)
 
-Send raw PCM or MP3 binary frames over the WebSocket connection.
+Envie frames binários PCM ou MP3 brutos pela conexão WebSocket.
 
-### Receiving events (server → client)
+### Recebendo eventos (servidor → cliente)
 
 ```json
 {
   "type": "transcript",
-  "text": "Hello, I'm calling about your recent inquiry.",
+  "text": "Olá, estou ligando sobre sua consulta recente.",
   "timestamp": "2026-03-01T10:01:20Z"
 }
 ```
@@ -59,29 +59,29 @@ Send raw PCM or MP3 binary frames over the WebSocket connection.
 }
 ```
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 | `Upgrade` | `websocket` |
 
-### Path parameters
+### Parâmetros de caminho
 
-| Parameter | Type | Description |
+| Parâmetro | Tipo | Descrição |
 |---|---|---|
-| `callId` | `string` | The call ID for a `DYNAMIC_STREAM` call |
+| `callId` | `string` | O ID de uma chamada do tipo `DYNAMIC_STREAM` |
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
-| `501` | Not yet implemented |
+| `401` | Token ausente ou inválido |
+| `501` | Ainda não implementado |
 
-## Example (JavaScript)
+## Exemplo (JavaScript)
 
 ```javascript
 const ws = new WebSocket(
@@ -95,7 +95,7 @@ const ws = new WebSocket(
 );
 
 ws.onopen = () => {
-  // Send PCM audio frames
+  // Enviar frames de áudio PCM
   ws.send(audioBuffer);
 };
 

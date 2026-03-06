@@ -1,38 +1,38 @@
 ---
-title: "Get Instance"
-description: "GET /v1/instances/:instanceId — Retrieve an instance and its active call queue"
+title: "Buscar Instância"
+description: "GET /v1/instances/:instanceId — Retorna uma instância e sua fila de chamadas ativa"
 openapi: "GET /v1/instances/{instanceId}"
 ---
 
 `GET /v1/instances/:instanceId`
 
-Returns details for a single instance, including its current active call queue (calls in `QUEUED`, `RINGING`, or `IN_PROGRESS` state).
+Retorna os detalhes de uma única instância, incluindo sua fila de chamadas ativa (chamadas nos status `QUEUED`, `RINGING` ou `IN_PROGRESS`).
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 
-### Path parameters
+### Parâmetros de caminho
 
-| Parameter | Type | Description |
+| Parâmetro | Tipo | Descrição |
 |---|---|---|
-| `instanceId` | `string` | The instance ID (e.g., `inst_abc123`) |
+| `instanceId` | `string` | O ID da instância (ex.: `inst_abc123`) |
 
-## Response `200`
+## Resposta `200`
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 |---|---|---|
-| `id` | `string` | Unique instance ID |
-| `name` | `string` | Instance label |
-| `status` | `string` | `CREATED`, `CONFIGURED`, or `ACTIVE` |
-| `metadata` | `object` | Instance metadata |
-| `callQueue` | `array` | Active calls on this instance |
-| `created_at` | `string` | ISO 8601 timestamp |
-| `updated_at` | `string` | ISO 8601 timestamp |
+| `id` | `string` | ID único da instância |
+| `name` | `string` | Rótulo da instância |
+| `status` | `string` | `CREATED`, `CONFIGURED` ou `ACTIVE` |
+| `metadata` | `object` | Metadados da instância |
+| `callQueue` | `array` | Chamadas ativas nesta instância |
+| `created_at` | `string` | Timestamp ISO 8601 |
+| `updated_at` | `string` | Timestamp ISO 8601 |
 
 ```json
 {
@@ -54,14 +54,14 @@ Returns details for a single instance, including its current active call queue (
 }
 ```
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
-| `404` | Instance not found or does not belong to the authenticated user |
+| `401` | Token ausente ou inválido |
+| `404` | Instância não encontrada ou não pertence ao usuário autenticado |
 
-## Example
+## Exemplo
 
 ```bash
 curl https://cawme.com/api/v1/instances/inst_abc123 \

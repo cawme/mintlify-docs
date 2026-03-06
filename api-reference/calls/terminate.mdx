@@ -1,39 +1,39 @@
 ---
-title: "Terminate Call"
-description: "DELETE /v1/calls/:callId — Terminate an active call"
+title: "Encerrar Chamada"
+description: "DELETE /v1/calls/:callId — Encerra uma chamada ativa"
 openapi: "DELETE /v1/calls/{callId}"
 ---
 
 `DELETE /v1/calls/:callId`
 
-Terminates an active call. Only calls in `QUEUED`, `RINGING`, or `IN_PROGRESS` state can be terminated. The call status is set to `FAILED` and `ended_at` is recorded.
+Encerra uma chamada ativa. Somente chamadas nos status `QUEUED`, `RINGING` ou `IN_PROGRESS` podem ser encerradas. O status da chamada é definido como `FAILED` e `ended_at` é registrado.
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 
-### Path parameters
+### Parâmetros de caminho
 
-| Parameter | Type | Description |
+| Parâmetro | Tipo | Descrição |
 |---|---|---|
-| `callId` | `string` | The call ID to terminate |
+| `callId` | `string` | O ID da chamada a ser encerrada |
 
-## Response `204`
+## Resposta `204`
 
-No content. The call has been terminated.
+Sem conteúdo. A chamada foi encerrada.
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
-| `404` | Call not found, already ended (`COMPLETED` or `FAILED`), or does not belong to the user |
+| `401` | Token ausente ou inválido |
+| `404` | Chamada não encontrada, já encerrada (`COMPLETED` ou `FAILED`) ou não pertence ao usuário |
 
-## Example
+## Exemplo
 
 ```bash
 curl -X DELETE https://cawme.com/api/v1/calls/call_xyz789 \
@@ -41,5 +41,5 @@ curl -X DELETE https://cawme.com/api/v1/calls/call_xyz789 \
 ```
 
 <Note>
-  Terminating a call sets its status to `FAILED`. There is no separate `CANCELLED` status.
+  Encerrar uma chamada define seu status como `FAILED`. Não existe um status separado `CANCELLED`.
 </Note>

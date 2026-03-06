@@ -1,28 +1,28 @@
 ---
-title: "Create Instance"
-description: "POST /v1/instances — Register a new WhatsApp calling instance"
+title: "Criar Instância"
+description: "POST /v1/instances — Registra uma nova instância de chamada no WhatsApp"
 openapi: "POST /v1/instances"
 ---
 
 `POST /v1/instances`
 
-Creates a new WhatsApp instance. After creation, [pair a phone number](/api-reference/instances/configure) by scanning the QR code.
+Cria uma nova instância do WhatsApp. Após a criação, [vincule um número de telefone](/api-reference/instances/configure) escaneando o QR code.
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 | `Content-Type` | `application/json` |
 
-### Body
+### Corpo
 
-| Field | Type | Required | Description |
+| Campo | Tipo | Obrigatório | Descrição |
 |---|---|---|---|
-| `name` | `string` | Yes | A label for this instance |
-| `metadata` | `object` | No | Arbitrary key-value metadata |
+| `name` | `string` | Sim | Um rótulo para esta instância |
+| `metadata` | `object` | Não | Metadados arbitrários em chave-valor |
 
 ```json
 {
@@ -33,18 +33,18 @@ Creates a new WhatsApp instance. After creation, [pair a phone number](/api-refe
 }
 ```
 
-## Response `201`
+## Resposta `201`
 
-Returns the created instance object.
+Retorna o objeto da instância criada.
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 |---|---|---|
-| `id` | `string` | Unique instance ID (`inst_` prefix) |
-| `name` | `string` | Instance label |
-| `status` | `string` | Always `CREATED` on creation |
-| `metadata` | `object` | Provided metadata |
-| `created_at` | `string` | ISO 8601 timestamp |
-| `updated_at` | `string` | ISO 8601 timestamp |
+| `id` | `string` | ID único da instância (prefixo `inst_`) |
+| `name` | `string` | Rótulo da instância |
+| `status` | `string` | Sempre `CREATED` na criação |
+| `metadata` | `object` | Metadados fornecidos |
+| `created_at` | `string` | Timestamp ISO 8601 |
+| `updated_at` | `string` | Timestamp ISO 8601 |
 
 ```json
 {
@@ -57,14 +57,14 @@ Returns the created instance object.
 }
 ```
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `400` | `name` is missing |
-| `401` | Missing or invalid token |
+| `400` | `name` está ausente |
+| `401` | Token ausente ou inválido |
 
-## Example
+## Exemplo
 
 ```bash
 curl -X POST https://cawme.com/api/v1/instances \

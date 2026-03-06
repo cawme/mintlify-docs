@@ -1,49 +1,49 @@
 ---
-title: "Get Call"
-description: "GET /v1/calls/:callId — Retrieve the status and details of a call"
+title: "Buscar Chamada"
+description: "GET /v1/calls/:callId — Retorna o status e os detalhes de uma chamada"
 openapi: "GET /v1/calls/{callId}"
 ---
 
 `GET /v1/calls/:callId`
 
-Returns the current state of a call, including its status and timestamps.
+Retorna o estado atual de uma chamada, incluindo seu status e timestamps.
 
-## Request
+## Requisição
 
-### Headers
+### Cabeçalhos
 
-| Header | Value |
+| Cabeçalho | Valor |
 |---|---|
 | `Authorization` | `Bearer <token>` |
 
-### Path parameters
+### Parâmetros de caminho
 
-| Parameter | Type | Description |
+| Parâmetro | Tipo | Descrição |
 |---|---|---|
-| `callId` | `string` | The call ID (e.g., `call_xyz789`) |
+| `callId` | `string` | O ID da chamada (ex.: `call_xyz789`) |
 
-## Response `200`
+## Resposta `200`
 
-| Field | Type | Description |
+| Campo | Tipo | Descrição |
 |---|---|---|
-| `id` | `string` | Unique call ID |
-| `instance_id` | `string` | Instance that placed the call |
-| `type` | `string` | `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM`, or `DYNAMIC_AGENT` |
-| `status` | `string` | Current call status |
-| `target_phone` | `string` | Destination phone number |
-| `started_at` | `string \| null` | ISO 8601 timestamp when the call connected |
-| `ended_at` | `string \| null` | ISO 8601 timestamp when the call ended |
-| `created_at` | `string` | ISO 8601 timestamp |
+| `id` | `string` | ID único da chamada |
+| `instance_id` | `string` | Instância que realizou a chamada |
+| `type` | `string` | `FIXED_TTS`, `FIXED_AUDIO`, `DYNAMIC_STREAM` ou `DYNAMIC_AGENT` |
+| `status` | `string` | Status atual da chamada |
+| `target_phone` | `string` | Número de destino |
+| `started_at` | `string \| null` | Timestamp ISO 8601 de quando a chamada conectou |
+| `ended_at` | `string \| null` | Timestamp ISO 8601 de quando a chamada encerrou |
+| `created_at` | `string` | Timestamp ISO 8601 |
 
-### Call statuses
+### Status da chamada
 
-| Status | Description |
+| Status | Descrição |
 |---|---|
-| `QUEUED` | Call is waiting to be placed |
-| `RINGING` | Call is dialling the recipient |
-| `IN_PROGRESS` | Recipient has answered |
-| `COMPLETED` | Call ended successfully |
-| `FAILED` | Call failed or was terminated |
+| `QUEUED` | Chamada aguardando para ser realizada |
+| `RINGING` | Chamada discando para o destinatário |
+| `IN_PROGRESS` | Destinatário atendeu |
+| `COMPLETED` | Chamada encerrada com sucesso |
+| `FAILED` | Chamada falhou ou foi encerrada |
 
 ```json
 {
@@ -58,14 +58,14 @@ Returns the current state of a call, including its status and timestamps.
 }
 ```
 
-## Errors
+## Erros
 
-| Code | Description |
+| Código | Descrição |
 |---|---|
-| `401` | Missing or invalid token |
-| `404` | Call not found or does not belong to the user |
+| `401` | Token ausente ou inválido |
+| `404` | Chamada não encontrada ou não pertence ao usuário |
 
-## Example
+## Exemplo
 
 ```bash
 curl https://cawme.com/api/v1/calls/call_xyz789 \

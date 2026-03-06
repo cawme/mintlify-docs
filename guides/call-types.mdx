@@ -1,15 +1,15 @@
 ---
-title: "Call Types"
-description: "The four types of WhatsApp calls supported by Cawme"
+title: "Tipos de Chamada"
+description: "Os quatro tipos de chamadas no WhatsApp suportados pelo Cawme"
 ---
 
-Cawme supports four call types, each suited for different use cases. Set the `type` field when [creating a call](/api-reference/calls/create).
+O Cawme suporta quatro tipos de chamada, cada um adequado para diferentes casos de uso. Defina o campo `type` ao [criar uma chamada](/api-reference/calls/create).
 
 ---
 
 ## FIXED\_TTS
 
-Convert text to speech and play it during the call. The simplest call type — just provide a message and a voice.
+Converte texto em fala e reproduz durante a chamada. O tipo mais simples — basta fornecer uma mensagem e uma voz.
 
 ```json
 {
@@ -17,19 +17,19 @@ Convert text to speech and play it during the call. The simplest call type — j
   "type": "FIXED_TTS",
   "target": { "phoneNumber": "+14155550123" },
   "tts": {
-    "text": "Hi John, your appointment is confirmed for tomorrow at 2pm.",
-    "voiceId": "en-US-001"
+    "text": "Olá João, sua consulta está confirmada para amanhã às 14h.",
+    "voiceId": "pt-BR-001"
   }
 }
 ```
 
-**Use cases:** Order notifications, appointment reminders, payment alerts, one-way announcements.
+**Casos de uso:** Notificações de pedidos, lembretes de consultas, alertas de pagamento, comunicados unidirecionais.
 
 ---
 
 ## FIXED\_AUDIO
 
-Play a pre-recorded audio file (Base64 encoded MP3 or WAV). Best when you need a polished, branded voice message.
+Reproduz um arquivo de áudio pré-gravado (MP3 ou WAV em Base64). Ideal quando você precisa de uma mensagem de voz polida e com identidade de marca.
 
 ```json
 {
@@ -42,13 +42,13 @@ Play a pre-recorded audio file (Base64 encoded MP3 or WAV). Best when you need a
 }
 ```
 
-**Use cases:** Marketing campaigns, branded announcements, compliance recordings.
+**Casos de uso:** Campanhas de marketing, comunicados institucionais, gravações de conformidade.
 
 ---
 
 ## DYNAMIC\_STREAM
 
-Stream real-time PCM or MP3 audio frames over a WebSocket. Use this when you want full control over the audio pipeline — connect your own TTS, translation layer, or live human agent.
+Transmite frames de áudio PCM ou MP3 em tempo real via WebSocket. Use quando precisar de controle total sobre o pipeline de áudio — conecte seu próprio TTS, camada de tradução ou um atendente humano ao vivo.
 
 ```json
 {
@@ -58,22 +58,22 @@ Stream real-time PCM or MP3 audio frames over a WebSocket. Use this when you wan
 }
 ```
 
-After the call is created, establish a WebSocket connection at `GET /v1/calls/:callId/stream`:
+Após criar a chamada, estabeleça uma conexão WebSocket em `GET /v1/calls/:callId/stream`:
 
-- **Client → Server:** Send PCM or MP3 audio frames
-- **Server → Client:** Receive real-time transcripts and call events
+- **Cliente → Servidor:** Envie frames de áudio PCM ou MP3
+- **Servidor → Cliente:** Receba transcrições em tempo real e eventos da chamada
 
-**Use cases:** Live agent-assisted calls, custom voice bots, real-time translation.
+**Casos de uso:** Chamadas com assistência de agente ao vivo, bots de voz personalizados, tradução em tempo real.
 
 <Note>
-  WebSocket streaming is currently in preview. See [Stream endpoint](/api-reference/calls/stream) for details.
+  O streaming via WebSocket está atualmente em preview. Consulte o [endpoint de Stream](/api-reference/calls/stream) para mais detalhes.
 </Note>
 
 ---
 
 ## DYNAMIC\_AGENT
 
-Deploy an AI agent that conducts the call autonomously based on natural-language instructions. The agent handles the conversation flow without any manual input.
+Implanta um agente de IA que conduz a chamada de forma autônoma com base em instruções em linguagem natural. O agente gerencia todo o fluxo da conversa sem intervenção manual.
 
 ```json
 {
@@ -82,29 +82,29 @@ Deploy an AI agent that conducts the call autonomously based on natural-language
   "target": { "phoneNumber": "+14155550123" },
   "agent": {
     "instructions": [
-      "Greet the person politely",
-      "Ask if they are interested in a product demo",
-      "If yes, collect their preferred date and time",
-      "Confirm the appointment before ending the call"
+      "Cumprimente a pessoa educadamente",
+      "Pergunte se ela tem interesse em uma demonstração do produto",
+      "Se sim, colete a data e horário de preferência",
+      "Confirme o agendamento antes de encerrar a chamada"
     ]
   }
 }
 ```
 
-**Use cases:** Sales prospecting, appointment scheduling, customer surveys, lead qualification.
+**Casos de uso:** Prospecção de vendas, agendamento de consultas, pesquisas com clientes, qualificação de leads.
 
 ---
 
-## Comparison
+## Comparativo
 
-| Feature | FIXED\_TTS | FIXED\_AUDIO | DYNAMIC\_STREAM | DYNAMIC\_AGENT |
+| Funcionalidade | FIXED\_TTS | FIXED\_AUDIO | DYNAMIC\_STREAM | DYNAMIC\_AGENT |
 |---|:---:|:---:|:---:|:---:|
-| Pre-written message | ✓ | ✓ | — | — |
-| Custom audio file | — | ✓ | — | — |
-| Real-time audio control | — | — | ✓ | — |
-| AI-driven conversation | — | — | — | ✓ |
-| Requires WebSocket | — | — | ✓ | — |
+| Mensagem pré-escrita | ✓ | ✓ | — | — |
+| Arquivo de áudio personalizado | — | ✓ | — | — |
+| Controle de áudio em tempo real | — | — | ✓ | — |
+| Conversa conduzida por IA | — | — | — | ✓ |
+| Requer WebSocket | — | — | ✓ | — |
 
-<Card title="Start a call" icon="phone" href="/api-reference/calls/create">
-  POST /v1/calls — full request reference
+<Card title="Iniciar uma chamada" icon="phone" href="/api-reference/calls/create">
+  POST /v1/calls — referência completa da requisição
 </Card>
